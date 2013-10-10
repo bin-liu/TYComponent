@@ -1,0 +1,7 @@
+.TangyuComponentProject/Source/bin
+.TangyuComponentProject/Source/gen
+.TangyuComponentProject/Source/libs
+.TangyuComponentProject/Test/bin
+.TangyuComponentProject/Test/gen
+.TangyuComponentProject/Test/libs
+.TangyuComponentProject/build
