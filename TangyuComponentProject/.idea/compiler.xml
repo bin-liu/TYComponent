@@ -3,9 +3,8 @@
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <excludeFromCompile>
-      <directory url="file://$PROJECT_DIR$/TangyuComponent/src/main/gen" includeSubdirectories="true" />
-      <directory url="file://$PROJECT_DIR$/Source/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/Test/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/Source/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
