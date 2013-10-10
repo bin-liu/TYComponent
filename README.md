@@ -17,7 +17,6 @@ Project structure
 
 Support views
 =========
-|name|demo|
-|:--
-|HorizontalListView| HorizontalListViewDemo.java HorizontalListViewDemo4Grid.java|
-
+1. HorizontalListView
+	- HorizontalListViewDemo
+	- HorizontalListViewDemo4Grid

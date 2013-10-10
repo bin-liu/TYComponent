@@ -1,8 +1,6 @@
 Demo Screenshot
 ===============
-|view name|screenshot|
-|:--
-|HorizontalListView||
+- HorizontalListViewDemo
 
 Update timeline
 ===============

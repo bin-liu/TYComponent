@@ -5,3 +5,5 @@
 .TangyuComponentProject/Test/gen
 .TangyuComponentProject/Test/libs
 .TangyuComponentProject/build
+
+*.DS_Stroe*
