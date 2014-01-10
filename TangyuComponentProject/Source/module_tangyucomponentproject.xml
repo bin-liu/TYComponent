@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_tangyucomponentproject" default="compile.module.tangyucomponentproject">
+  <dirname property="module.tangyucomponentproject.basedir" file="${ant.file.module_tangyucomponentproject}"/>
+  
+  <property name="module.jdk.home.tangyucomponentproject" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.tangyucomponentproject" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.tangyucomponentproject" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.tangyucomponentproject" value="${compiler.args}"/>
+  
+  <property name="tangyucomponentproject.output.dir" value="${module.tangyucomponentproject.basedir}/../out/production/TangyuComponentProject"/>
+  <property name="tangyucomponentproject.testoutput.dir" value="${module.tangyucomponentproject.basedir}/../out/test/TangyuComponentProject"/>
+  
+  <path id="tangyucomponentproject.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="tangyucomponentproject.module.production.classpath">
+    <path refid="${module.jdk.classpath.tangyucomponentproject}"/>
+  </path>
+  
+  <path id="tangyucomponentproject.runtime.production.module.classpath">
+    <pathelement location="${tangyucomponentproject.output.dir}"/>
+  </path>
+  
+  <path id="tangyucomponentproject.module.classpath">
+    <path refid="${module.jdk.classpath.tangyucomponentproject}"/>
+    <pathelement location="${tangyucomponentproject.output.dir}"/>
+  </path>
+  
+  <path id="tangyucomponentproject.runtime.module.classpath">
+    <pathelement location="${tangyucomponentproject.testoutput.dir}"/>
+    <pathelement location="${tangyucomponentproject.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.tangyucomponentproject">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.tangyucomponentproject">
+    <patternset refid="compiler.excluded"/>
+    <patternset refid="excluded.from.module.tangyucomponentproject"/>
+  </patternset>
+  
+  <path id="tangyucomponentproject.module.sourcepath">
+    <dirset dir="${module.tangyucomponentproject.basedir}">
+      <include name="demo"/>
+      <include name="gen"/>
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.tangyucomponentproject" depends="compile.module.tangyucomponentproject.production,compile.module.tangyucomponentproject.tests" description="Compile module TangyuComponentProject"/>
+  
+  <target name="compile.module.tangyucomponentproject.production" depends="register.custom.compilers" description="Compile module TangyuComponentProject; production classes">
+    <mkdir dir="${tangyucomponentproject.output.dir}"/>
+    <javac2 destdir="${tangyucomponentproject.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.tangyucomponentproject}/javac">
+      <compilerarg line="${compiler.args.tangyucomponentproject}"/>
+      <bootclasspath refid="tangyucomponentproject.module.bootclasspath"/>
+      <classpath refid="tangyucomponentproject.module.production.classpath"/>
+      <src refid="tangyucomponentproject.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.tangyucomponentproject"/>
+    </javac2>
+    
+    <copy todir="${tangyucomponentproject.output.dir}">
+      <fileset dir="${module.tangyucomponentproject.basedir}/demo">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.tangyucomponentproject"/>
+      </fileset>
+      <fileset dir="${module.tangyucomponentproject.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.tangyucomponentproject"/>
+      </fileset>
+      <fileset dir="${module.tangyucomponentproject.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.tangyucomponentproject"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.tangyucomponentproject.tests" depends="register.custom.compilers,compile.module.tangyucomponentproject.production" description="compile module TangyuComponentProject; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.tangyucomponentproject" description="cleanup module">
+    <delete dir="${tangyucomponentproject.output.dir}"/>
+    <delete dir="${tangyucomponentproject.testoutput.dir}"/>
+  </target>
+</project>

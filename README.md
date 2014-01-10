@@ -20,3 +20,8 @@ Support views
 1. HorizontalListView
 	- HorizontalListViewDemo
 	- HorizontalListViewDemo4Grid
+
+Support service
+========
+1. remindService
+	- ActDemoRemindService

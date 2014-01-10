@@ -1,10 +1,10 @@
-.TangyuComponentProject/Source/bin
-.TangyuComponentProject/Source/gen
-.TangyuComponentProject/Source/libs
-.TangyuComponentProject/Test/bin
-.TangyuComponentProject/Test/gen
-.TangyuComponentProject/Test/libs
-.TangyuComponentProject/build
-.TangyuComponentProject/out
+./TangyuComponentProject/Source/bin
+./TangyuComponentProject/Source/gen
+./TangyuComponentProject/Source/libs
+./TangyuComponentProject/Test/bin
+./TangyuComponentProject/Test/gen
+./TangyuComponentProject/Test/libs
+./TangyuComponentProject/build
+./TangyuComponentProject/out
 
 *.DS_Stroe*

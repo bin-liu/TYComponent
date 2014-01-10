@@ -1,6 +1,6 @@
 /**
  * The MIT License (MIT)
- * Copyright (c) 2012  Tang Yu Software Corporation
+ * Copyright (c) 2012-2014 唐虞科技 Corporation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,9 @@
  */
 package com.tangyu.component.util;
 
+/**
+ * @author binliu
+ */
 public interface IPublicCloneable {
 
     public Object clone() throws CloneNotSupportedException;

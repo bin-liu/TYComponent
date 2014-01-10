@@ -11,14 +11,30 @@
         <activity
             android:name=".demo.HorizontalListViewDemo"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".demo.HorizontalListViewDemo4Grid"
             android:label="@string/app_name">
         </activity>
+
+        <activity android:name=".demo.service.remind.ActDemoRemindService"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- in other process -->
+        <service android:name=".demo.service.remind.TYRemindServiceImpl">
+        </service>
+
+        <receiver android:name=".demo.service.remind.TYRemindReceiver"
+            android:process=":receiver"
+            >
+            <intent-filter >
+                <action android:name="com.tangyu.app.WAKEUP.Test" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
