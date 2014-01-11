@@ -210,7 +210,7 @@
       <file leaf-file-name="ActDemoRemindService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Source/demo/com/tangyu/component/demo/service/remind/ActDemoRemindService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="100" column="79" selection-start="3734" selection-end="3734" vertical-scroll-proportion="0.7131474" vertical-offset="827" max-vertical-offset="2415">
+            <state line="100" column="79" selection-start="3734" selection-end="3734" vertical-scroll-proportion="1.1049383" vertical-offset="827" max-vertical-offset="2415">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2285#2303#0" expanded="true" />
@@ -367,10 +367,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1836" />
     <option name="y" value="22" />
     <option name="width" value="1704" />
-    <option name="height" value="1056" />
+    <option name="height" value="878" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -951,7 +950,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1836" y="22" width="1704" height="1056" extended-state="0" />
+    <frame x="0" y="22" width="1704" height="878" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -966,7 +965,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32158118" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43910256" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.54221636" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15560916" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1343,7 +1342,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Source/demo/com/tangyu/component/demo/service/remind/ActDemoRemindService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="100" column="79" selection-start="3734" selection-end="3734" vertical-scroll-proportion="0.7131474" vertical-offset="827" max-vertical-offset="2415">
+        <state line="100" column="79" selection-start="3734" selection-end="3734" vertical-scroll-proportion="1.1049383" vertical-offset="827" max-vertical-offset="2415">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2285#2303#0" expanded="true" />
