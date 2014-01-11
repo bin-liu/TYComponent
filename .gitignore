@@ -3,10 +3,16 @@ TangyuComponentProject/Source/bin/
 ./TangyuComponentProject/Source/gen
 TangyuComponentProject/Source/gen/
 ./TangyuComponentProject/Source/libs
+TangyuComponentProject/Source/libs/
 ./TangyuComponentProject/Test/bin
+TangyuComponentProject/Test/bin/
 ./TangyuComponentProject/Test/gen
+TangyuComponentProject/Test/gen/
 ./TangyuComponentProject/Test/libs
+TangyuComponentProject/Test/libs/
 ./TangyuComponentProject/build
+TangyuComponentProject/build/
 ./TangyuComponentProject/out
+TangyuComponentProject/out/
 
 *.DS_Stroe*
