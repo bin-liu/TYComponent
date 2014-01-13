@@ -674,12 +674,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
                                float distanceX, float distanceY) {
         synchronized (HorizontalListView.this) {
             reportScrollState(OnScrollListener.SCROLL_TOUCH_SCROLL);
-            // get big value when freeze. so keep it small.
-            if (Math.abs((int) distanceX) > 30) {
-                mNextX += distanceX > 0 ? 1 : -1;
-            } else {
-                mNextX += (int) distanceX;
-            }
+            mNextX += (int) distanceX;
         }
         requestLayout();
 
