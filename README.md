@@ -31,3 +31,7 @@ Support service
 1. remindService
 	
 	- ActDemoRemindService
+
+2. syncService
+
+	- ActDemoSyncService

@@ -23,3 +23,7 @@ Update timeline
 - Version 1.0.1
 	- add service of remind.
 	
+- Version 1.0.2
+	- add SYNC service
+	- add Launcher activity. 
+	

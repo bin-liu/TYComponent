@@ -48,7 +48,7 @@ public class TYRemindReceiver extends BroadcastReceiver {
                 Parcel parcel = Parcel.obtain();
                 parcel.unmarshall(bytes, 0, bytes.length);
                 parcel.setDataPosition(0);
-                TYRemindData remindData = TYRemindData.CREATOR.createFromParcel(parcel);
+                TYRemindData remindData = RemindData.CREATOR.createFromParcel(parcel);
 
                 Log.v(context.getPackageName(), "i receive remind!!! command = " + command + "is missing[[" + isMissing + "]]");
                 String stringRemindTime = DateFormat.format("kk:mm:ss", remindData.getmRemindTime()).toString();
