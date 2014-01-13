@@ -14,5 +14,5 @@ TangyuComponentProject/Test/libs/
 TangyuComponentProject/build/
 ./TangyuComponentProject/out
 TangyuComponentProject/out/
-
+TangyuComponentProject/.idea/
 *.DS_Stroe*
