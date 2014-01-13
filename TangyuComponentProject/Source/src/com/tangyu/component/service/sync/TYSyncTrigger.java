@@ -20,14 +20,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.service.sync;
 
-public class ActionCfg {
+import android.content.Context;
 
-    public static final String APP_NAME = "com.tangyu.app";
+/**
+ * @author binliu on 1/11/14.
+ */
+public abstract class TYSyncTrigger {
 
-    public static final String ACT_GPS = ".gps";
+    protected int current;
 
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
+    protected Context context;
+
+    public TYSyncTrigger(Context context) {
+        this.context = context;
+    }
+
+    public synchronized void pour(int quantity) {
+        current += quantity;
+        if (current >= overFlow()) {
+            sync();
+        }
+    }
+
+    /**
+     *
+     */
+    public void sync() {
+        reset();
+        onSync();
+    }
+
+    public void reset() {
+        current = 0;
+    }
+
+    public abstract void onSync();
+
+    public abstract int overFlow();
 }

@@ -1,6 +1,6 @@
 /**
  * The MIT License (MIT)
- * Copyright (c) 2012  Tang Yu Software Corporation
+ * Copyright (c) 2012-2014 唐虞科技 Corporation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ import com.tangyu.component.view.HorizontalListView;
 /**
  * lionlions say some bug about HorizontalListView. so i write this to reproduce question.
  *
- * Created by bin on 13-10-10.
+ * @author binliu on 13-10-10.
  */
 public class HorizontalListViewDemo4Grid extends Activity {
 

@@ -20,14 +20,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.demo.service.sync;
 
-public class ActionCfg {
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-    public static final String APP_NAME = "com.tangyu.app";
+import com.tangyu.component.R;
+import com.tangyu.component.service.sync.TYSyncTrigger;
 
-    public static final String ACT_GPS = ".gps";
+/**
+ * @author binliu on 1/12/14.
+ */
+public class ActDemoSyncService extends Activity implements View.OnClickListener {
 
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
+    private TextView mVMsg;
+    private Button mVBtnStart;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.demo_sync_service);
+
+        mVMsg = (TextView) findViewById(R.id.demo_sync_service_msg);
+        mVBtnStart = (Button) findViewById(R.id.demo_sync_service_start);
+        mVBtnStart.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        SyncTrigger.getIntance(this).pour(SyncTrigger.POUR_OVER_FLOW);
+    }
 }

@@ -20,14 +20,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.service.remind;
 
-public class ActionCfg {
+/**
+ * @author binliu on 12/30/13.
+ */
+public class TYRemindServiceDelegate implements TYRemindService.TYRemindServiceDelegateAble {
 
-    public static final String APP_NAME = "com.tangyu.app";
 
-    public static final String ACT_GPS = ".gps";
+    @Override
+    public void willResponseCommand(int command) {
 
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
+    }
+
+    @Override
+    public void didResponseCommand(int command) {
+
+    }
 }

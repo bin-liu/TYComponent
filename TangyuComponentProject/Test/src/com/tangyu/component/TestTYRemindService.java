@@ -22,16 +22,46 @@
  */
 package com.tangyu.component;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.content.Intent;
+import android.test.ServiceTestCase;
+import android.util.Log;
 
-public class MyActivity extends Activity {
+import com.tangyu.component.demo.service.remind.TYRemindServiceImpl;
+import com.tangyu.component.service.remind.TYRemindService;
+
+/**
+ * @author binliu on 12/31/13.
+ */
+public class TestTYRemindService extends ServiceTestCase<TYRemindServiceImpl> {
+
+    public TestTYRemindService() {
+        super(TYRemindServiceImpl.class);
+    }
+
     /**
-     * Called when the activity is first created.
+     * Constructor
+     *
+     * @param serviceClass The type of the service under test.
      */
+    public TestTYRemindService(Class<TYRemindServiceImpl> serviceClass) {
+        super(serviceClass);
+    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    public void testNextRemindCanStart() {
+        Log.v(getContext().getPackageName(), "Test App pid = " + android.os.Process.myPid());
+        Intent intent = new Intent(getContext(), TYRemindServiceImpl.class);
+        intent.putExtra(TYRemindService.INTENT_REMIND_COMMAND, TYRemindService.CMD_REMIND_RESCHEDULE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startService(intent);
     }
 }

@@ -1,6 +1,6 @@
 /**
  * The MIT License (MIT)
- * Copyright (c) 2012  Tang Yu Software Corporation
+ * Copyright (c) 2012-2014 唐虞科技 Corporation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package com.tangyu.component.view;
 
 import android.content.Context;
@@ -673,12 +674,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
                                float distanceX, float distanceY) {
         synchronized (HorizontalListView.this) {
             reportScrollState(OnScrollListener.SCROLL_TOUCH_SCROLL);
-            // get big value when freeze. so keep it small.
-            if (Math.abs((int) distanceX) > 30) {
-                mNextX += distanceX > 0 ? 1 : -1;
-            } else {
-                mNextX += (int) distanceX;
-            }
+            mNextX += (int) distanceX;
         }
         requestLayout();
 

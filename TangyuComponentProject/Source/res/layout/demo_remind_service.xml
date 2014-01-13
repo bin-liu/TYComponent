@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/demo_remind_service_show_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/demo_remind_service_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Remind Service"/>
+
+    <Button
+        android:id="@+id/demo_remind_service_reset_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reset Remind Service"/>
+
+    <Button
+        android:id="@+id/demo_remind_service_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop Remind Service"/>
+
+</LinearLayout>

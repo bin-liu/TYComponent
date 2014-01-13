@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_test" default="compile.module.test">
+  <dirname property="module.test.basedir" file="${ant.file.module_test}"/>
+  
+  <property name="module.jdk.home.test" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.test" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.test" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.test" value="${compiler.args}"/>
+  
+  <property name="test.output.dir" value="${module.test.basedir}/../out/production/Test"/>
+  <property name="test.testoutput.dir" value="${module.test.basedir}/../out/test/Test"/>
+  
+  <path id="test.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="test.module.production.classpath">
+    <path refid="${module.jdk.classpath.test}"/>
+    <pathelement location="${tangyucomponentproject.output.dir}"/>
+  </path>
+  
+  <path id="test.runtime.production.module.classpath">
+    <pathelement location="${test.output.dir}"/>
+    <path refid="tangyucomponentproject.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="test.module.classpath">
+    <path refid="${module.jdk.classpath.test}"/>
+    <pathelement location="${test.output.dir}"/>
+    <pathelement location="${tangyucomponentproject.testoutput.dir}"/>
+    <pathelement location="${tangyucomponentproject.output.dir}"/>
+  </path>
+  
+  <path id="test.runtime.module.classpath">
+    <pathelement location="${test.testoutput.dir}"/>
+    <pathelement location="${test.output.dir}"/>
+    <path refid="tangyucomponentproject.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.test">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.test">
+    <patternset refid="compiler.excluded"/>
+    <patternset refid="excluded.from.module.test"/>
+  </patternset>
+  
+  <path id="test.module.sourcepath">
+    <dirset dir="${module.test.basedir}">
+      <include name="src"/>
+      <include name="gen"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.test" depends="compile.module.test.production,compile.module.test.tests" description="Compile module Test"/>
+  
+  <target name="compile.module.test.production" depends="register.custom.compilers,compile.module.tangyucomponentproject" description="Compile module Test; production classes">
+    <mkdir dir="${test.output.dir}"/>
+    <javac2 destdir="${test.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.test}/javac">
+      <compilerarg line="${compiler.args.test}"/>
+      <bootclasspath refid="test.module.bootclasspath"/>
+      <classpath refid="test.module.production.classpath"/>
+      <src refid="test.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.test"/>
+    </javac2>
+    
+    <copy todir="${test.output.dir}">
+      <fileset dir="${module.test.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.test"/>
+      </fileset>
+      <fileset dir="${module.test.basedir}/gen">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+        <patternset refid="excluded.from.compilation.test"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.test.tests" depends="register.custom.compilers,compile.module.test.production" description="compile module Test; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.test" description="cleanup module">
+    <delete dir="${test.output.dir}"/>
+    <delete dir="${test.testoutput.dir}"/>
+  </target>
+</project>

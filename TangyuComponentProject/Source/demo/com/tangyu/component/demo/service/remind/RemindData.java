@@ -20,14 +20,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.demo.service.remind;
 
-public class ActionCfg {
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.format.DateFormat;
 
-    public static final String APP_NAME = "com.tangyu.app";
+import com.tangyu.component.service.remind.TYRemindData;
 
-    public static final String ACT_GPS = ".gps";
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
+/**
+ * Created by binliu on 12/31/13.
+ */
+public class RemindData extends TYRemindData {
+
+    @Override
+    public String toString() {
+        return "[RemindTime = " + stringForRemindTime(mRemindTime) + "\tStatus = " + stringForStatus(mRemindState) + "]\n";
+    }
+
+    public static String stringForRemindTime(long remindTime) {
+        return DateFormat.format("kk:mm:ss", remindTime).toString();
+    }
+
+    public static String stringForStatus(int remindStatus) {
+        if (REMIND_STATE_REMINDED == remindStatus) {
+            return "Reminded";
+        } else if (REMIND_STATE_UNREMIND == remindStatus) {
+            return "unRemind";
+        } else {
+            return "Reminding";
+        }
+    }
 }

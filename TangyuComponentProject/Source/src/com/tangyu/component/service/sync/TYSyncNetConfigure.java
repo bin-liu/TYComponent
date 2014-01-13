@@ -20,14 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.service.sync;
 
-public class ActionCfg {
+import android.os.Parcelable;
 
-    public static final String APP_NAME = "com.tangyu.app";
+/**
+ * @author binliu on 1/11/14.
+ */
+public interface TYSyncNetConfigure extends Parcelable {
 
-    public static final String ACT_GPS = ".gps";
+    public static final String MODEL_POST = "post";
 
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
+    public String remoteURL();
+
+    public int connectionTimeoutInMills();
+
+    public int soTimeoutInMills();
+
+    public String encodeFormat();
+
+    public String model();
+
 }

@@ -20,14 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.demo.service.sync;
 
-public class ActionCfg {
+import com.tangyu.component.service.sync.TYSyncService;
 
-    public static final String APP_NAME = "com.tangyu.app";
+/**
+ * @author binliu on 1/12/14.
+ */
+public class SyncService extends TYSyncService {
 
-    public static final String ACT_GPS = ".gps";
-
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
 }

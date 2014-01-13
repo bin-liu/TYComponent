@@ -20,14 +20,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tangyu.component;
+package com.tangyu.component.demo.service.sync;
 
-public class ActionCfg {
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
-    public static final String APP_NAME = "com.tangyu.app";
+import com.tangyu.component.Util;
+import com.tangyu.component.service.sync.TYSyncService;
 
-    public static final String ACT_GPS = ".gps";
-
-    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
-    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
+/**
+ * @author binliu on 1/12/14.
+ */
+public class SyncReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (null != intent && null != intent.getAction() && intent.getAction().equals(TYSyncService.ACTION_TYSYNC_RESPONSE)) {
+            boolean isSuccess = intent.getBooleanExtra(TYSyncService.INTENT_RESPONSE_SUCCESS, false);
+            String content = intent.getStringExtra(TYSyncService.INTENT_RESPONSE_CONTENT);
+            Util.v("[" + isSuccess + "]" + content);
+        }
+    }
 }
