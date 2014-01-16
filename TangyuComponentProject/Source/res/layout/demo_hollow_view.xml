@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+    android:background="#FFAAAAAA"
+    >
+
+    <TextView
+        android:id="@+id/demo_hollow_view_1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="160dp"
+        android:text="1"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/demo_hollow_view_2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="150dp"
+        android:layout_alignParentLeft="true"
+        android:background="@android:color/white"
+        android:text="2"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/demo_hollow_view_3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="300dp"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/white"
+        android:text="3"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="normal"
+        android:textColor="@android:color/black"/>
+
+    <TextView
+        android:id="@+id/demo_hollow_view_4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="160dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:text="4"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="normal"
+        android:textColor="@android:color/black"/>
+
+    <com.tangyu.component.view.TYHollowView
+        android:id="@+id/demo_hollow_view_hollow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>

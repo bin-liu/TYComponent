@@ -5,7 +5,7 @@ The component package for android
 
 Features
 ========
-- contains a number of useful custom view.
+- contains a number of useful custom views, services and scripts.
 
 Project structure
 =================
@@ -18,7 +18,7 @@ Project structure
 - Test (test module)
 
 
-Support views
+Views
 =========
 1. HorizontalListView
 
@@ -26,7 +26,7 @@ Support views
 	
 	- HorizontalListViewDemo4Grid
 
-Support service
+Service
 ========
 1. remindService
 	
@@ -35,3 +35,9 @@ Support service
 2. syncService
 
 	- ActDemoSyncService
+	
+Script
+=======
+1. updateLicense
+
+	current only support java file.

@@ -37,6 +37,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tangyu.component.Util;
@@ -59,13 +60,35 @@ import java.util.List;
  * ------------------
  * </pre>
  * <p/>
- * Often use with guide</br>
+ * Often use in guide</br>
  * <p/>
- * Cover with a black layer. and hollow the handle. </br>
+ * Cover with a black layer and multiple hollow. </br>
  * <p/>
- * if touch event position in handle area. it will be call handle.click();</br>
+ * if touch event position in handle area. The HollowListener will be handle it.</br>
  * <p/>
- * u can also set message to show.</br>
+ * u can also set a message view to hollow to display the detail of hollow.</br>
+ *
+ * STEPS:<br>
+ * <pre>
+ *     1. create a hollow object.
+ *     2. invoke {@link com.tangyu.component.view.TYHollowView.Hollow#calculateDelta(android.view.View, int)} to calculate the offset of hollow.
+ *     3. create a message view, TextView ImageView or other, and set to hollow if need.
+ *     4. if you set a message view. u can setting the position and gap params.
+ *     5. add to hollow view.
+ * </pre>
+ *
+ * SIMPLE CODE: <br>
+ * <pre>
+ *  TYHollowView.Hollow hollow = new TYHollowView.Hollow(item);
+ *  TextView msgView = TYHollowView.Hollow.createSimpleTextView(this);
+ *  msgView.setText(sb.toString());
+ *  Point delta = TYHollowView.Hollow.calculateDelta(item, mRootView.getId());
+ *  hollow.setDelta(delta);
+ *  hollow.setPosition(position[i % position.length]);
+ *  hollow.setMsgView(msgView);
+ *  hollow.setGapBetweenMsgAndHollow((i + 1) * 20);
+ *  mRootView.addHollow(hollow);
+ * </pre>
  *
  * @author bin
  */
@@ -79,15 +102,15 @@ public class TYHollowView extends FrameLayout {
         return paint;
     }
 
-    private Paint mPaint = getDefPaint();
+    protected Paint mPaint = getDefPaint();
 
-    private List<Hollow> mHollows = new LinkedList<Hollow>();
+    protected List<Hollow> mHollows = new LinkedList<Hollow>();
 
-    private TextView mVMsg;
+    protected TextView mVBlackLayout;
 
-    private TextView mVBlackLayout;
+    protected HollowListener mListener;
 
-    private HollowListener mListener;
+    protected Hollow mFocusHollow;
 
     @SuppressLint("NewApi")
     public TYHollowView(Context context, AttributeSet attrs, int defStyle) {
@@ -139,11 +162,54 @@ public class TYHollowView extends FrameLayout {
         if (hollow != null && hollow.mVMsg != null) {
             mHollows.add(hollow);
             addView(hollow.mVMsg);
+            requestLayout();
         }
     }
 
-    public List<Hollow> getHollows() {
+    public void removeHollow(Hollow hollow) {
+        if (!Util.isNull(mHollows)) {
+            for (Hollow item : mHollows) {
+                if (item.equals(hollow)) {
+                    mHollows.remove(item);
+                    // be careful if you wanna remove 'break'
+                    break;
+                }
+            }
+        }
+    }
+
+
+    public final List<Hollow> getHollows() {
         return mHollows;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mFocusHollow = null;
+                if (mHollows.size() > 0) {
+                    int x = (int) event.getX(), y = (int) event.getY();
+                    Rect rect = new Rect();
+                    for (Hollow hollow : mHollows) {
+                        hollow.mHandler.getHitRect(rect);
+                        if (rect.contains(x, y)) {
+                            mFocusHollow = hollow;
+                            onFocusHollowWhenTouchDown(hollow);
+                            break;
+                        }
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (null != mListener) {
+                    boolean hasFocusHollow = null != mFocusHollow;
+                    mListener.onTappedListener(hasFocusHollow, hasFocusHollow ? mFocusHollow.mHandler : null);
+                }
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -157,13 +223,14 @@ public class TYHollowView extends FrameLayout {
 
         for (Hollow hollow : mHollows) {
             if (hollow.mVMsg != null && hollow.mVMsg.getVisibility() != View.GONE) {
-                Rect rect = calculateLayout(hollow);
+                Rect rect = calculateLayoutOfHollowMsgView(hollow);
+                onLayoutOfHollowMsgView(hollow, rect);
                 hollow.mVMsg.layout(rect.left, rect.top, rect.right, rect.bottom);
             }
         }
     }
 
-    private Rect calculateLayout(Hollow hollow) {
+    private Rect calculateLayoutOfHollowMsgView(Hollow hollow) {
         Rect rect = new Rect();
         Rect handleRect = new Rect();
         hollow.mHandler.getHitRect(handleRect);
@@ -171,56 +238,49 @@ public class TYHollowView extends FrameLayout {
         int widthMeasureSpec, heightMeasureSpec;
         switch (hollow.mPos) {
             case Hollow.POS_LEFT_HOLLOW:
-                rect.right = handleRect.left;
-                rect.top = handleRect.top;
-//			if (hollow.mVMsg.getMeasuredWidth() <= handleRect.left) {
-//				rect.left = handleRect.left - hollow.mVMsg.getMeasuredWidth();
-//			} else {
                 rect.left = 0;
-//			}
-                widthMeasureSpec = MeasureSpec.makeMeasureSpec(handleRect.left, MeasureSpec.EXACTLY);
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE, MeasureSpec.EXACTLY);
+                rect.right = handleRect.left - hollow.mGapMsgAndHollow;
+                rect.top = handleRect.top;
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(rect.width(), MeasureSpec.AT_MOST);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.AT_MOST);
                 hollow.mVMsg.measure(widthMeasureSpec, heightMeasureSpec);
+                rect.left = rect.width() - hollow.mVMsg.getMeasuredWidth();
                 rect.bottom = rect.top + hollow.mVMsg.getMeasuredHeight();
                 break;
             case Hollow.POS_TOP_HOLLOW:
-                rect.right = handleRect.right;
-                rect.bottom = handleRect.top;
-                if (hollow.mVMsg.getMeasuredHeight() <= handleRect.top) {
-                    rect.top = handleRect.top - hollow.mVMsg.getMeasuredHeight();
-//			} else {
-//				rect.top = 0;
-                }
-                widthMeasureSpec = MeasureSpec.makeMeasureSpec(handleRect.right, MeasureSpec.EXACTLY);
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE, MeasureSpec.EXACTLY);
+                rect.top = 0;
+                rect.bottom = handleRect.top - hollow.mGapMsgAndHollow;
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.AT_MOST);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(rect.height(), MeasureSpec.AT_MOST);
                 hollow.mVMsg.measure(widthMeasureSpec, heightMeasureSpec);
-                rect.left = rect.right - hollow.mVMsg.getMeasuredWidth();
+                rect.top = rect.bottom - hollow.mVMsg.getMeasuredHeight();
+                rect.left = handleRect.centerX() - (hollow.mVMsg.getMeasuredWidth() >> 1);
+                rect.right = rect.left + hollow.mVMsg.getMeasuredWidth();
+                break;
+            case Hollow.POS_RIGHT_HOLLOW:
+                rect.left = handleRect.right + hollow.mGapMsgAndHollow;
+                rect.right = getMeasuredWidth() - rect.left;
+                rect.top = handleRect.top;
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(rect.width(), MeasureSpec.AT_MOST);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.AT_MOST);
+                hollow.mVMsg.measure(widthMeasureSpec, heightMeasureSpec);
+                rect.right = rect.left + hollow.mVMsg.getMeasuredWidth();
+                rect.bottom = rect.top + hollow.mVMsg.getMeasuredHeight();
+                break;
+            case Hollow.POS_BOTTOM_HOLLOW:
+                rect.top = handleRect.bottom + hollow.mGapMsgAndHollow;
+                rect.bottom = getMeasuredHeight();
+                widthMeasureSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.AT_MOST);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(rect.height(), MeasureSpec.AT_MOST);
+                hollow.mVMsg.measure(widthMeasureSpec, heightMeasureSpec);
+                rect.bottom = rect.top + hollow.mVMsg.getMeasuredHeight();
+                rect.left = handleRect.centerX() - (hollow.mVMsg.getMeasuredWidth() >> 1);
+                rect.right = rect.left + hollow.mVMsg.getMeasuredWidth();
                 break;
         }
         Util.v("w = " + hollow.mVMsg.getMeasuredWidth() + "|h = " + hollow.mVMsg.getMeasuredHeight());
         Util.v(rect.toString());
         return rect;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (mHollows.size() > 0) {
-            int x = (int) event.getX(), y = (int) event.getY();
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Rect rect = new Rect();
-                for (Hollow hollow : mHollows) {
-                    hollow.mHandler.getHitRect(rect);
-                    if (rect.contains(x, y)) {
-                        hollow.mHandler.performClick();
-                    }
-                }
-            }
-        }
-        if (mListener != null) {
-            mListener.onHollowDownListener();
-        }
-        setVisibility(GONE);
-        return true;
     }
 
     @Override
@@ -241,12 +301,39 @@ public class TYHollowView extends FrameLayout {
         }
     }
 
+    /**
+     * Layout the msg view of hollow.<br>
+     *
+     * If you wants to change the position of msg view. Just modify the parameter ‘rect’.<br>
+     *
+     * The rect is absolute coordinate in this view.
+     *
+     * @param hollow
+     * @param rect
+     */
+    protected void onLayoutOfHollowMsgView(Hollow hollow, Rect rect) {
+
+    }
+
+    /**
+     * find out the hollow when user touch.
+     * @param hollow
+     */
+    protected void onFocusHollowWhenTouchDown(Hollow hollow) {
+
+    }
+
     public void setOnHollowListener(HollowListener listener) {
         mListener = listener;
     }
 
     public interface HollowListener {
-        public void onHollowDownListener();
+        /**
+         * User was tapped view.
+         * @param hasTappedHollow whether tapped in hollow or not.
+         * @param view
+         */
+        public void onTappedListener(boolean hasTappedHollow, View view);
     }
 
     public static class Hollow {
@@ -256,33 +343,46 @@ public class TYHollowView extends FrameLayout {
         public static final int POS_RIGHT_HOLLOW = 2;
         public static final int POS_BOTTOM_HOLLOW = 3;
 
-        View mHandler;
-        TextView mVMsg;
-        Point mDelta;
-        int mPos;
+        protected View mHandler;
+        protected View mVMsg;
+        protected Point mDelta;
+        protected int mPos;
+        protected int mGapMsgAndHollow;
 
         public Hollow(View handler) {
             mHandler = handler;
         }
 
-        public static TextView generalMsgView(Context ctx) {
+        public static TextView createSimpleTextView(Context ctx) {
             if (ctx == null) {
                 throw new NullPointerException("ctx is null");
             }
-            TextView mVMsg = new TextView(ctx);
-            mVMsg.setTextColor(Color.WHITE);
-            mVMsg.setLayoutParams(new LayoutParams(
+            TextView textView = new TextView(ctx);
+            textView.setTextColor(Color.WHITE);
+            textView.setLayoutParams(new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
                     Gravity.CENTER_HORIZONTAL));
-            return mVMsg;
+            return textView;
+        }
+
+        public static ImageView createSimpleImageView(Context ctx) {
+            if (ctx == null) {
+                throw new NullPointerException("ctx is null");
+            }
+            ImageView imageView = new ImageView(ctx);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            return imageView;
         }
 
         /**
+         * To calculate the absolute coordinate between view with its super view.
          * @param handleView
-         * @param id         ID of the view which layer is same as hollow view.
+         * @param dependViewId the super ID of handleView.
          * @return
          */
-        public static Point generalDelta(View handleView, int id) {
+        public static Point calculateDelta(View handleView, int dependViewId) {
             if (handleView == null) {
                 throw new NullPointerException("handleView is null");
             }
@@ -292,7 +392,7 @@ public class TYHollowView extends FrameLayout {
             parent = (ViewGroup) handleView.getParent();
             delta.offset(parent.getLeft(), parent.getTop());
 //			Util.v("DDDD " + delta.x + " | " + delta.y);
-            while (parent != null && parent.getId() != id) {
+            while (parent != null && parent.getId() != dependViewId) {
                 parent = (ViewGroup) parent.getParent();
                 if (parent != null) {
                     delta.offset(parent.getLeft(), parent.getTop());
@@ -316,8 +416,14 @@ public class TYHollowView extends FrameLayout {
             mPos = position;
         }
 
-        public void setMsgView(TextView msgView) {
+        public void setMsgView(View msgView) {
+
+
             mVMsg = msgView;
+        }
+
+        public void setGapBetweenMsgAndHollow(int gap) {
+            mGapMsgAndHollow = gap;
         }
 
     }

@@ -42,6 +42,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
+ * CURRENT ONLY SUPPORT POST REQUEST.
  * @author binliu on 1/11/14.
  */
 public class TYSyncService extends IntentService {
