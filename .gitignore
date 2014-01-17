@@ -15,4 +15,4 @@ TangyuComponentProject/build/
 ./TangyuComponentProject/out
 TangyuComponentProject/out/
 TangyuComponentProject/.idea/
-*.DS_Stroe*
+.DS_Store*
