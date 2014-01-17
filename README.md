@@ -25,6 +25,8 @@ Views
 	- HorizontalListViewDemo
 	
 	- HorizontalListViewDemo4Grid
+	
+2. TYHollowView
 
 Service
 ========
