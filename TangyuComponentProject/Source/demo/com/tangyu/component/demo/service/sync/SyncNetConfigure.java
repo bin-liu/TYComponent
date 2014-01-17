@@ -93,7 +93,7 @@ public class SyncNetConfigure implements TYSyncNetConfigure {
 
     public static class Config {
 
-        public static final String host = "http://data.tangcloud.com/login/android/new";//"http://data.tangcloud.com";
+        public static final String host = "http://www.google.com.cn";
 
         public static final int Default_Connection_Timeout = 10 * 1000;
 

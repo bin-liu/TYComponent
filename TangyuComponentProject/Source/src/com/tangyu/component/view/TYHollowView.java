@@ -178,9 +178,12 @@ public class TYHollowView extends FrameLayout {
         }
     }
 
-
     public final List<Hollow> getHollows() {
         return mHollows;
+    }
+
+    public void reset() {
+        setVisibility(View.VISIBLE);
     }
 
     @Override

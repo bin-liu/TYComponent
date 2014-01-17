@@ -11,6 +11,11 @@ Demo Screenshot
 - TYRemindService
 
 	![image](pic/remind-service-demoe-device-2014-01-11-102034.png)
+	
+- TYHollowView
+
+	![image](pic/hollowview-demo-device-2014-01-17-163831.png)
+
 
 
 Update timeline
@@ -26,4 +31,7 @@ Update timeline
 - Version 1.0.2
 	- add SYNC service
 	- add Launcher activity. 
+	
+- Version 1.0.3
+	- add TYHollowView
 	

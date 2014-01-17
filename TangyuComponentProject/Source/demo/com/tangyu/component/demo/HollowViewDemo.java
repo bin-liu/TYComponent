@@ -23,9 +23,11 @@
 package com.tangyu.component.demo;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +46,7 @@ public class HollowViewDemo extends Activity {
     private View mView3;
     private View mView4;
     private View[] mViews;
-    private TYHollowView mRootView;
+    private TYHollowView mHollowView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,9 @@ public class HollowViewDemo extends Activity {
         mView4 = findViewById(R.id.demo_hollow_view_4);
         mViews = new View[] {mView1, mView2, mView3, mView4};
 
-        mRootView = (TYHollowView) findViewById(R.id.demo_hollow_view_hollow);
+        mHollowView = (TYHollowView) findViewById(R.id.demo_hollow_view_hollow);
 
-        mRootView.setOnHollowListener(new TYHollowView.HollowListener() {
+        mHollowView.setOnHollowListener(new TYHollowView.HollowListener() {
 
             @Override
             public void onTappedListener(boolean hasTappedHollow, View view) {
@@ -68,7 +70,7 @@ public class HollowViewDemo extends Activity {
                 } else {
                     Util.toast(HollowViewDemo.this, "hollow not Tapped!!", true);
                 }
-                mRootView.setVisibility(View.GONE);
+                mHollowView.setVisibility(View.GONE);
             }
         });
 
@@ -96,13 +98,27 @@ public class HollowViewDemo extends Activity {
                 ((ImageView) msgView).setImageResource(R.drawable.ic_launcher);
             }
 
-            Point delta = TYHollowView.Hollow.calculateDelta(item, mRootView.getId());
+            Point delta = TYHollowView.Hollow.calculateDelta(item, mHollowView.getId());
             hollow.setDelta(delta);
             hollow.setPosition(position[i % position.length]);
             hollow.setMsgView(msgView);
             hollow.setGapBetweenMsgAndHollow((i + 1) * 20);
-            mRootView.addHollow(hollow);
+            mHollowView.addHollow(hollow);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.menu_hollow, menu);
+        MenuItem item = menu.findItem(R.id.menu_hollow_reset);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mHollowView.reset();
+                return true;
+            }
+        });
+        return true;
     }
 }

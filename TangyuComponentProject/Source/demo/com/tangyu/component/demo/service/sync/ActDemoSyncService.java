@@ -48,6 +48,8 @@ public class ActDemoSyncService extends Activity implements View.OnClickListener
         mVMsg = (TextView) findViewById(R.id.demo_sync_service_msg);
         mVBtnStart = (Button) findViewById(R.id.demo_sync_service_start);
         mVBtnStart.setOnClickListener(this);
+
+        mVMsg.setText("Current not support show somethings. because data isn't save in database");
     }
 
     @Override
