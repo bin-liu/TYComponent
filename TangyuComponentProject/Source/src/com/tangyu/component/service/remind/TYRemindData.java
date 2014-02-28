@@ -208,7 +208,7 @@ public class TYRemindData implements Parcelable, ICopyFrom {
         return RemindDataUtil.isSameDate(mRemindTime, other.mRemindTime);
     }
 
-    public boolean isCompleted() {
+    public boolean isCompletedState() {
         return mRemindState == REMIND_STATE_REMINDED;
     }
 
@@ -260,7 +260,7 @@ public class TYRemindData implements Parcelable, ICopyFrom {
         public boolean isAllCompleted(List<T> source) {
             if (null != source) {
                 for (T remind : source) {
-                    if (!remind.isCompleted()) {
+                    if (!remind.isCompletedState()) {
                         return false;
                     }
                 }
