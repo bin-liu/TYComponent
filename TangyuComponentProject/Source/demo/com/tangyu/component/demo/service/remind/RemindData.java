@@ -22,15 +22,9 @@
  */
 package com.tangyu.component.demo.service.remind;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 
 import com.tangyu.component.service.remind.TYRemindData;
-
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by binliu on 12/31/13.

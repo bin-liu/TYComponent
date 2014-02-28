@@ -25,7 +25,6 @@ package com.tangyu.component.demo.service.sync;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Parcelable;
 
 import com.tangyu.component.service.sync.TYNameValuePair;
 import com.tangyu.component.service.sync.TYSyncNetConfigure;
@@ -33,7 +32,6 @@ import com.tangyu.component.service.sync.TYSyncService;
 import com.tangyu.component.service.sync.TYSyncTrigger;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author binliu on 1/11/14.

@@ -23,7 +23,6 @@
 package com.tangyu.component.demo;
 
 import android.app.Activity;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;

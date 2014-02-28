@@ -32,8 +32,6 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
 
-import com.tangyu.component.ActionCfg;
-
 import java.util.Calendar;
 
 /**
@@ -41,11 +39,13 @@ import java.util.Calendar;
  */
 public class RemindWay {
 
-    public final static String ACTION_NEWDAY_REMIND = ActionCfg.APP_NAME
-            + ActionCfg.ACT_REMIND_NEWDAY;
+    public static final String APP_NAME = "com.tangyu.app";
+    public final static String ACT_REMIND_NEWDAY = ".NEWDAY_REMIND";
+    public final static String ACT_REMIND_WAKEUP = ".WAKEUP";
 
-    public final static String ACTION_WAKEUP = ActionCfg.APP_NAME
-            + ActionCfg.ACT_REMIND_WAKEUP;
+    public final static String ACTION_NEWDAY_REMIND = APP_NAME + ACT_REMIND_NEWDAY;
+
+    public final static String ACTION_WAKEUP = APP_NAME + ACT_REMIND_WAKEUP;
 
     private Context mCtx;
     private NotificationManager mNotify;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>                                                                                                 
+<project basedir="." default="jarfiles" name="jarHelper">
+	<target name="setLibrary">
+		<echo level="info">init var</echo>
+		<echo level="info">Project name is ${basedir}</echo>
+		<property name="project.is.library" value="true"/>
+		<property name="renderscript.opt.level" value="O0"/>
+	</target>
+
+	<target name="compile" >
+		<property name="source.remindservice.absolute.dir" value="${basedir}/src/com/tangyu/component/service/remind/" />
+		<path id="project.javac.classpath">
+			<path refid="project.all.jars.path" />
+			<path refid="tested.project.classpath" />
+			<path path="${java.compiler.classpath}" />
+		</path>
+		<echo>${java.compilerargs}</echo>
+		<javac encoding="${java.encoding}"
+			source="${java.source}" target="${java.target}"
+			debug="true" extdirs="" includeantruntime="false"
+			destdir="${out.classes.absolute.dir}"
+			bootclasspathref="project.target.class.path"
+			verbose="false"
+			classpathref="project.javac.classpath"
+			fork="${need.javac.fork}">
+			<src path="${source.remindservice.absolute.dir}" />
+			<compilerarg line="${java.compilerargs}" />
+		</javac>
+		<!-- if the project is a library then we generate a jar file -->
+		<if condition="true">
+			<then>
+				<echo level="info">Creating library output jar file...</echo>
+				<property name="out.library.jar.file" location="${out.absolute.dir}/tangyu-github-remindservice.jar" />
+
+				<propertybyreplace name="project.app.package.path" input="${project.app.package}" replace="." with="/" />
+
+				<jar destfile="${out.library.jar.file}">
+					<fileset dir="${out.classes.absolute.dir}"
+						includes="**/*.class"
+						excludes="${project.app.package.path}/R.class ${project.app.package.path}/R$*.class ${project.app.package.path}/BuildConfig.class"/>                                                                                                  
+				</jar>
+			</then>
+		</if>
+	</target>
+	<target name="startJar" depends="clean, -build-setup, setLibrary, compile" />
+	<!--<target name="startJar" depends="setLibrary, -build-setup, -code-gen, showpath, -compile" />-->
+	<target name="packageSrc">
+		<echo level="info">start packing source</echo>
+		<echo level="info">source dir = ${source.dir}</echo>
+		<jar destfile="${out.dir}/classes-source.jar" >
+			<fileset dir="${source.dir}" includes="**/*.java"/>
+		</jar>
+	</target>
+</project>
+

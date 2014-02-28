@@ -24,7 +24,6 @@ package com.tangyu.component.demo.service.remind;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.tangyu.component.service.remind.RemindWay;
 import com.tangyu.component.service.remind.TYRemindData;

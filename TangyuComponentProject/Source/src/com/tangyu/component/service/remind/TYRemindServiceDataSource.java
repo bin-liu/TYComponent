@@ -22,10 +22,6 @@
  */
 package com.tangyu.component.service.remind;
 
-import android.util.Log;
-
-import com.tangyu.component.demo.service.remind.RemindData;
-
 import java.util.LinkedList;
 import java.util.List;
 
