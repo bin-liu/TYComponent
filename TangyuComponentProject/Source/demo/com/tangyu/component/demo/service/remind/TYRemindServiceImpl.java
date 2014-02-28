@@ -104,7 +104,7 @@ public class TYRemindServiceImpl extends TYRemindService {
                     baseline, new TYRemindData.RemindDataUtil.PassingTest<RemindData>() {
                 @Override
                 public boolean passingTestStep(RemindData obj) {
-                    return false;
+                    return true;
                 }
             });
             if (null != next) {
@@ -163,7 +163,7 @@ public class TYRemindServiceImpl extends TYRemindService {
                         // Here to add your conditions.
                         // return true means that will not add to result.
                         //
-                        return false;
+                        return true;
                     }
                 });
             }
