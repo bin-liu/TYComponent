@@ -282,8 +282,8 @@ public class TYRemindData implements Parcelable, ICopyFrom {
             final long baseline = c2.getTimeInMillis();
             for (T rd : reminds) {
                 if (!rd.ismEnable()) continue;
-                boolean isContinue = null != passing ? passing.passingTestStep(rd) : true;
-                if (!isContinue) continue;
+                boolean isPass = null != passing ? passing.passingTestStep(rd) : true;
+                if (!isPass) continue;
                 if (rd.getmRemindTime() >= baseline) {
                     return rd;
                 }
@@ -304,8 +304,8 @@ public class TYRemindData implements Parcelable, ICopyFrom {
             List<T> result = new LinkedList<T>();
             if (!Util.isNull(reminds)) {
                 for (T rd : reminds) {
-                    boolean isContinue = null != passing ? passing.passingTestStep(rd) : true;
-                    if (!isContinue) continue;
+                    boolean isPass = null != passing ? passing.passingTestStep(rd) : true;
+                    if (!isPass) continue;
                     Calendar c1 = Calendar.getInstance();
                     c1.setTimeInMillis(rd.getmRemindTime());
                     rd.setmRemindTime(toDate(c1, destiny).getTimeInMillis());
