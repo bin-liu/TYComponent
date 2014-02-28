@@ -36,13 +36,6 @@ public abstract class TYRemindServiceDataSource<T extends TYRemindData> implemen
 
     @Override
     public void cancelAll() {
-//        List<T> reminds = getAllRemind();
-//        if (isEmptyList(reminds)) return;
-//        for (T r : reminds) {
-//            if (r.getmRemindState() == TYRemindData.REMIND_STATE_REMINDDING) {
-//                r.setmRemindState(TYRemindData.REMIND_STATE_UNREMIND);
-//            }
-//        }
     }
 
     @Override

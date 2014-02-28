@@ -26,10 +26,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import com.tangyu.component.Util;
-import com.tangyu.component.util.ICopyFrom;
-
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,7 +38,7 @@ import java.util.UUID;
  * Demo : {@link com.tangyu.component.demo.service.remind.RemindData}
  * @author bin
  */
-public class TYRemindData implements Parcelable, ICopyFrom {
+public class TYRemindData implements Parcelable {
 
     public static final String TABCOL_ID = "_id";
     public static final String TABCOL_TIME = "time";
@@ -53,12 +51,21 @@ public class TYRemindData implements Parcelable, ICopyFrom {
     public static final int REMIND_STATE_REMINDDING = 1;
     public static final int REMIND_STATE_INVALID = -2;
 
+    public static boolean isNull(List<?> list) {
+        return list == null || list.size() == 0 ? true : false;
+    }
+
     public static Comparator<? super TYRemindData> COMPARATOR_FOR_REMIND_TIME = new Comparator<TYRemindData>() {
         @Override
         public int compare(TYRemindData lhs, TYRemindData rhs) {
             return lhs.getmRemindTime() == rhs.getmRemindTime() ? 0 : lhs.getmRemindTime() < rhs.getmRemindTime() ? -1 : 1;
         }
     };
+
+    public static void sort(List<? extends TYRemindData> list) {
+        if (isNull(list)) return;
+        Collections.sort(list, COMPARATOR_FOR_REMIND_TIME);
+    }
 
     protected int mRemindId;
     protected long mRemindTime;
@@ -156,7 +163,6 @@ public class TYRemindData implements Parcelable, ICopyFrom {
         r.mUUID = mUUID;
     }
 
-    @Override
     public void copyFrom(Object obj) {
         if (obj instanceof TYRemindData) {
             TYRemindData source = (TYRemindData) obj;
@@ -247,7 +253,7 @@ public class TYRemindData implements Parcelable, ICopyFrom {
         }
 
         public final int indexOf(List<T> source, TYRemindData target) {
-            if (!Util.isNull(source) && !TextUtils.isEmpty(target.getmUUID())) {
+            if (!isNull(source) && !TextUtils.isEmpty(target.getmUUID())) {
                 for (int i = 0; i < source.size(); ++i) {
                     TYRemindData e = source.get(i);
                     if (TextUtils.isEmpty(e.getmUUID())) continue;
@@ -278,7 +284,7 @@ public class TYRemindData implements Parcelable, ICopyFrom {
         public T filterNextRemindsPassingTest(List<T> reminds,
                                               Calendar c2,
                                               PassingTest<T> passing) {
-            if (Util.isNull(reminds)) return null;
+            if (isNull(reminds)) return null;
             final long baseline = c2.getTimeInMillis();
             for (T rd : reminds) {
                 if (!rd.ismEnable()) continue;
@@ -302,7 +308,7 @@ public class TYRemindData implements Parcelable, ICopyFrom {
                                                    Calendar destiny,
                                                    PassingTest<T> passing) {
             List<T> result = new LinkedList<T>();
-            if (!Util.isNull(reminds)) {
+            if (!isNull(reminds)) {
                 for (T rd : reminds) {
                     boolean isPass = null != passing ? passing.passingTestStep(rd) : true;
                     if (!isPass) continue;
