@@ -31,7 +31,9 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Region;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,8 +41,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.tangyu.component.Util;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -93,6 +93,13 @@ import java.util.List;
  * @author bin
  */
 public class TYHollowView extends FrameLayout {
+
+    /**
+     * log level should be greater than DEBUG.
+     * if you want to show log info. please exec command as follow:
+     * adb shell log.tag.TY DEBUG
+     */
+    private static final String LOG_TAG = "TY";
 
     public static Paint getDefPaint() {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -167,7 +174,7 @@ public class TYHollowView extends FrameLayout {
     }
 
     public void removeHollow(Hollow hollow) {
-        if (!Util.isNull(mHollows)) {
+        if (null != mHollows && mHollows.size() > 0) {
             for (Hollow item : mHollows) {
                 if (item.equals(hollow)) {
                     mHollows.remove(item);
@@ -281,8 +288,8 @@ public class TYHollowView extends FrameLayout {
                 rect.right = rect.left + hollow.mVMsg.getMeasuredWidth();
                 break;
         }
-        Util.v("w = " + hollow.mVMsg.getMeasuredWidth() + "|h = " + hollow.mVMsg.getMeasuredHeight());
-        Util.v(rect.toString());
+        log("w = " + hollow.mVMsg.getMeasuredWidth() + "|h = " + hollow.mVMsg.getMeasuredHeight());
+        log(rect.toString());
         return rect;
     }
 
@@ -391,15 +398,15 @@ public class TYHollowView extends FrameLayout {
             }
             ViewGroup parent;
             Point delta = new Point();
-//			Util.v("DDDD " + delta.x + " | " + delta.y);
+//			log("DDDD " + delta.x + " | " + delta.y);
             parent = (ViewGroup) handleView.getParent();
             delta.offset(parent.getLeft(), parent.getTop());
-//			Util.v("DDDD " + delta.x + " | " + delta.y);
+//			log("DDDD " + delta.x + " | " + delta.y);
             while (parent != null && parent.getId() != dependViewId) {
                 parent = (ViewGroup) parent.getParent();
                 if (parent != null) {
                     delta.offset(parent.getLeft(), parent.getTop());
-//					Util.v("DDDD " + delta.x + " | " + delta.y);
+//					log("DDDD " + delta.x + " | " + delta.y);
                 }
             }
             return delta;
@@ -428,6 +435,11 @@ public class TYHollowView extends FrameLayout {
         public void setGapBetweenMsgAndHollow(int gap) {
             mGapMsgAndHollow = gap;
         }
+    }
 
+    private static void log(String info) {
+        if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
+            if (!TextUtils.isEmpty(info)) Log.d(LOG_TAG, info);
+        }
     }
 }

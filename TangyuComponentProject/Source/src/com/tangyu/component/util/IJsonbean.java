@@ -35,33 +35,15 @@ public interface IJsonBean {
 
     public static JParserSet PARSERSET = null;
 
-    /**
-     * {@link Recorder#record_contents} parser to local data
-     *
-     * @author bin
-     */
     public abstract class JParser {
 
-        /**
-         * @param jsonStr is {@link Recorder#record_contents}
-         * @return IJsonbean object
-         */
         public abstract IJsonBean parserOne(String jsonStr);
 
         public abstract List<IJsonBean> parserList(String jsonStr);
     }
 
-    /**
-     * local data encapsulate to {@link Recorder#record_contents}.
-     *
-     * @author bin
-     */
     public abstract class JEncapsulater {
 
-        /**
-         * @param bean IJsonbean object
-         * @return is {@link Recorder#record_contents}
-         */
         public abstract JSONObject encapsulaterOne(IJsonBean bean);
 
         public abstract JSONArray encapsulaterList(List<IJsonBean> beans);
@@ -69,20 +51,12 @@ public interface IJsonBean {
 
     public abstract class JParserSet {
 
-        /**
-         * @param jsonArray the array of non-Set data.
-         * @return Set data
-         */
         public abstract IJsonBean parserSet(String jsonArray);
 
     }
 
     public abstract class JEncapsulaterSet {
 
-        /**
-         * @param set data
-         * @return non-set data array
-         */
         public abstract JSONArray encapsulaterSet(IJsonBean bean);
 
     }
