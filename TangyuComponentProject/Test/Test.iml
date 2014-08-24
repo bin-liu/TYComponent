@@ -19,6 +19,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Source" />
+    <orderEntry type="library" name="libs" level="project" />
   </component>
 </module>
 

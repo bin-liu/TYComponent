@@ -7,8 +7,11 @@
 		<property name="renderscript.opt.level" value="O0"/>
 	</target>
 
+	<property name="jar-name" value="tangyu-github-service" />
+	<property name="source-path-of-service" value="/src/com/tangyu/component/service/" />
+
 	<target name="compile" >
-		<property name="source.remindservice.absolute.dir" value="${basedir}/src/com/tangyu/component/service/remind/" />
+		<property name="source.remindservice.absolute.dir" value="${basedir}${source-path-of-service}" />
 		<path id="project.javac.classpath">
 			<path refid="project.all.jars.path" />
 			<path refid="tested.project.classpath" />
@@ -30,7 +33,7 @@
 		<if condition="true">
 			<then>
 				<echo level="info">Creating library output jar file...</echo>
-				<property name="out.library.jar.file" location="${out.absolute.dir}/tangyu-github-remindservice.jar" />
+				<property name="out.library.jar.file" location="${out.absolute.dir}/${jar-name}.jar" />
 
 				<propertybyreplace name="project.app.package.path" input="${project.app.package}" replace="." with="/" />
 
@@ -43,12 +46,12 @@
 		</if>
 	</target>
 	<target name="startJar" depends="clean, -build-setup, setLibrary, compile" />
-	<!--<target name="startJar" depends="setLibrary, -build-setup, -code-gen, showpath, -compile" />-->
+
 	<target name="packageSrc">
 		<echo level="info">start packing source</echo>
 		<echo level="info">source dir = ${source.dir}</echo>
-		<jar destfile="${out.dir}/classes-source.jar" >
-			<fileset dir="${source.dir}" includes="**/*.java"/>
+		<jar destfile="${out.dir}/${jar-name}-source.jar" >
+			<fileset dir="${source.dir}" includes="**/service/**/*.java"/>
 		</jar>
 	</target>
 </project>

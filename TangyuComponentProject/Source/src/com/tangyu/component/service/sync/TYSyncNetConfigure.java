@@ -24,6 +24,8 @@ package com.tangyu.component.service.sync;
 
 import android.os.Parcelable;
 
+import org.apache.http.Header;
+
 /**
  * @author binliu on 1/11/14.
  */
@@ -32,6 +34,8 @@ public interface TYSyncNetConfigure extends Parcelable {
     public static final String MODEL_POST = "post";
 
     public String remoteURL();
+
+    public Header header();
 
     public int connectionTimeoutInMills();
 

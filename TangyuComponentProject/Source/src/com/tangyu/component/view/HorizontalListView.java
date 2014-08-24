@@ -26,7 +26,9 @@ package com.tangyu.component.view;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -35,8 +37,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.Scroller;
-
-import com.tangyu.component.Util;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -50,6 +50,13 @@ import java.util.Queue;
  * @author bin
  */
 public class HorizontalListView extends AdapterView<ListAdapter> {
+
+    /**
+     * log level should be greater than DEBUG.
+     * if you want to show log info. please exec command as follow:
+     * adb shell log.tag.TY DEBUG
+     */
+    private static final String LOG_TAG = "TY";
 
     /**
      * Regular layout - usually an unsolicited layout from the view system
@@ -290,7 +297,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      * @see #setSelectionFromLeft(int, int)
      */
     public boolean isLayoutRequestedBySelection() {
-        return Util.isFlagContain(mLayoutMode, LAYOUT_SPECIFIC);
+        return isFlagContain(mLayoutMode, LAYOUT_SPECIFIC);
     }
 
     @Override
@@ -320,7 +327,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
      * @see #requestChildFreeze(android.view.View, int)
      */
     public boolean isLayoutRequestByFreeze() {
-        return Util.isFlagContain(mLayoutMode, LAYOUT_FREEZE);
+        return isFlagContain(mLayoutMode, LAYOUT_FREEZE);
     }
 
     /**
@@ -402,8 +409,8 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             mLayoutMode &= ~LAYOUT_FREEZE;
             if (mIsLayoutDirty) {
                 mFirstPosition = mFreezePosInAdapter;
-                Util.v("Freeze pos = " + mFreezePosInAdapter);
-                Util.v("Freeze left = " + (mFreezeChild == null ? 0 : mFreezeChild.getLeft()));
+                log("Freeze pos = " + mFreezePosInAdapter);
+                log("Freeze left = " + (mFreezeChild == null ? 0 : mFreezeChild.getLeft()));
                 setSelectionFrom(mFreezePosInAdapter, (mFreezeChild == null ? 0 : mFreezeChild.getLeft()));
             }
         }
@@ -437,7 +444,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
         }
 
         int dx = 0;
-        if (Util.isFlagContain(mLayoutMode, LAYOUT_SPECIFIC)) {
+        if (isFlagContain(mLayoutMode, LAYOUT_SPECIFIC)) {
             removeAllViewsInLayout();
             initViewForSpecific();
 
@@ -637,7 +644,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     }
 
     void reportScroll(int status) {
-        if (!Util.isNull(mOnScrolled) && status != mScrollStatus) {
+        if (null != mOnScrolled && status != mScrollStatus) {
             final int first = getFirstVisiblePosition();
             final int visibleCount = getLastVisiblePosition() - first;
             final int count = mAdapter.getCount();
@@ -646,7 +653,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     }
 
     void reportScrollState(int status) {
-        if (!Util.isNull(mOnScrolled) && status != mScrollStatus) {
+        if (null != mOnScrolled && status != mScrollStatus) {
             mScrollStatus = status;
             mOnScrolled.onScrollStateChanged(this, status);
         }
@@ -786,4 +793,21 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
                              int totalItemCount);
     }
 
+
+    /**
+     * parameter 2 is contain in parameter 1.
+     *
+     * @param sourceFlag
+     * @param compareFlag
+     * @return
+     */
+    private static boolean isFlagContain(int sourceFlag, int compareFlag) {
+        return (sourceFlag & compareFlag) == compareFlag;
+    }
+
+    private static void log(String info) {
+        if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
+            if (!TextUtils.isEmpty(info)) Log.d(LOG_TAG, info);
+        }
+    }
 }

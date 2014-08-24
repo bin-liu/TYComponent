@@ -26,6 +26,8 @@ import android.os.Parcel;
 
 import com.tangyu.component.service.sync.TYSyncNetConfigure;
 
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 
 /**
@@ -59,6 +61,11 @@ public class SyncNetConfigure implements TYSyncNetConfigure {
     @Override
     public String encodeFormat() {
         return Config.encodeFormat;
+    }
+
+    @Override
+    public Header header() {
+        return Config.header;
     }
 
     @Override
@@ -102,6 +109,8 @@ public class SyncNetConfigure implements TYSyncNetConfigure {
         public static final String encodeFormat = HTTP.UTF_8;
 
         public static final String model = TYSyncNetConfigure.MODEL_POST;
+
+        public static final Header header = new BasicHeader("Content-type", "application/json");
     }
 
 }

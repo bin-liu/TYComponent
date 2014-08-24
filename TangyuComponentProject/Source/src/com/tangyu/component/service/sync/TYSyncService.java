@@ -25,8 +25,6 @@ package com.tangyu.component.service.sync;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.tangyu.component.Util;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -39,6 +37,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,6 +56,10 @@ public class TYSyncService extends IntentService {
     public static final String INTENT_RESPONSE_SUCCESS = "SUCCESS";
 
     public static final String INTENT_RESPONSE_CONTENT = "CONTENT";
+
+    protected TYSyncNetConfigure mConfig;
+
+    protected List mData;
 
     public TYSyncService() {
         this(TYSyncService.class.getSimpleName());
@@ -76,26 +80,28 @@ public class TYSyncService extends IntentService {
         if (!intent.hasExtra(INTENT_CONFIG)) {
             throw new NullPointerException("Not found the key of INTENT_DATA in intent extra, It's couldn't be null");
         }
-        if (!intent.hasExtra(INTENT_DATA)) {
-            throw new NullPointerException("Not found the key of INTENT_DATA in intent extra, It's couldn't be null");
+
+        mConfig = intent.getParcelableExtra(INTENT_CONFIG);
+        mData = intent.getParcelableArrayListExtra(INTENT_DATA);
+        if (null == mData) {
+            mData = new LinkedList();
         }
 
-        List<? extends TYNameValuePair> data = intent.getParcelableArrayListExtra(INTENT_DATA);
-        TYSyncNetConfigure config = intent.getParcelableExtra(INTENT_CONFIG);
+        if (!isHandleIntent(intent)) return;
 
-        onPreExecute(config, data);
-        TYResponseResult responseResult = executeByModel(config, data);
+        onPreExecute(mConfig, mData);
+        TYResponseResult responseResult = executeByModel(mConfig, mData);
         onPostExecute(responseResult);
 
         Intent responseIntent = new Intent(ACTION_TYSYNC_RESPONSE);
         responseIntent.putExtra(INTENT_RESPONSE_SUCCESS, responseResult.isSuccess);
         responseIntent.putExtra(INTENT_RESPONSE_CONTENT, responseResult.content);
         sendBroadcast(responseIntent);
-        Util.v("Action = " + ACTION_TYSYNC_RESPONSE);
+//        Util.v("Action = " + ACTION_TYSYNC_RESPONSE);
 
     }
 
-    private TYResponseResult executeByModel(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
+    protected TYResponseResult executeByModel(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
         if (TYSyncNetConfigure.MODEL_POST.equals(config.model())) {
             return executePost(config, data);
         } else {
@@ -104,14 +110,15 @@ public class TYSyncService extends IntentService {
     }
 
 
-    private TYResponseResult executePost(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
-        Util.v("execute post");
+    protected TYResponseResult executePost(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
+//        Util.v("execute post");
         HttpPost post = new HttpPost(config.remoteURL());
         HttpParams params = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(params, config.connectionTimeoutInMills());
         HttpConnectionParams.setSoTimeout(params, config.soTimeoutInMills());
 
         try {
+            post.setHeader(config.header());
             post.setEntity(new UrlEncodedFormEntity(data, config.encodeFormat()));
             HttpResponse httpResponse = new DefaultHttpClient(params).execute(post);
             TYResponseResult result = new TYResponseResult(httpResponse);
@@ -127,27 +134,50 @@ public class TYSyncService extends IntentService {
         return null;
     }
 
-    private TYResponseResult executeGet(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
+    protected TYResponseResult executeGet(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
         // TODO: will be done in future.
         return null;
     }
 
-    protected void onPreExecute(TYSyncNetConfigure config, List<? extends TYNameValuePair> data) {
-        Util.v("pre execute");
+
+    protected boolean isHandleIntent(Intent intent) {
+        return true;
     }
 
+    /**
+     * Be careful, it to be invoked in work thread
+     * @param config
+     * @param data
+     */
+    protected void onPreExecute(TYSyncNetConfigure config, List data) {
+//        Util.v("pre execute");
+    }
+
+    /**
+     * Be careful, it to be invoked in work thread
+     * @param responseResult
+     */
     protected void onPostExecute(TYResponseResult responseResult) {
-        Util.v("post execute");
+//        Util.v("post execute");
     }
 
-    protected class TYResponseResult {
-        private HttpResponse httpResponse;
-        private boolean isSuccess;
-        private String content;
+    public static class TYResponseResult {
+        public HttpResponse httpResponse;
+        public boolean isSuccess;
+        public String content;
+
+        public TYResponseResult() {
+        }
 
         public TYResponseResult(HttpResponse httpResponse) {
             this.httpResponse = httpResponse;
         }
 
+        public TYResponseResult(TYResponseResult responseResult) {
+            if (null == responseResult) return;
+            this.httpResponse = responseResult.httpResponse;
+            this.isSuccess = responseResult.isSuccess;
+            this.content = responseResult.content;
+        }
     }
 }

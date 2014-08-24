@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public interface IJsonbean {
+public interface IJsonBean {
 
     public static JParser PARSER = null;
 
@@ -46,9 +46,9 @@ public interface IJsonbean {
          * @param jsonStr is {@link Recorder#record_contents}
          * @return IJsonbean object
          */
-        public abstract IJsonbean parserOne(String jsonStr);
+        public abstract IJsonBean parserOne(String jsonStr);
 
-        public abstract List<IJsonbean> parserList(String jsonStr);
+        public abstract List<IJsonBean> parserList(String jsonStr);
     }
 
     /**
@@ -62,9 +62,9 @@ public interface IJsonbean {
          * @param bean IJsonbean object
          * @return is {@link Recorder#record_contents}
          */
-        public abstract JSONObject encapsulaterOne(IJsonbean bean);
+        public abstract JSONObject encapsulaterOne(IJsonBean bean);
 
-        public abstract JSONArray encapsulaterList(List<IJsonbean> beans);
+        public abstract JSONArray encapsulaterList(List<IJsonBean> beans);
     }
 
     public abstract class JParserSet {
@@ -73,7 +73,7 @@ public interface IJsonbean {
          * @param jsonArray the array of non-Set data.
          * @return Set data
          */
-        public abstract IJsonbean parserSet(String jsonArray);
+        public abstract IJsonBean parserSet(String jsonArray);
 
     }
 
@@ -83,7 +83,7 @@ public interface IJsonbean {
          * @param set data
          * @return non-set data array
          */
-        public abstract JSONArray encapsulaterSet(IJsonbean bean);
+        public abstract JSONArray encapsulaterSet(IJsonBean bean);
 
     }
 
