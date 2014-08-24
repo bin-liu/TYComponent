@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>                                                                                                 
 <project basedir="." default="jarfiles" name="jarHelper">
+
+	<property file="build.properties"/>
+
 	<target name="setLibrary">
 		<echo level="info">init var</echo>
 		<echo level="info">Project name is ${basedir}</echo>
@@ -7,16 +10,20 @@
 		<property name="renderscript.opt.level" value="O0"/>
 	</target>
 
-	<property name="jar-name" value="tangyu-github-service" />
-	<property name="source-path-of-service" value="/src/com/tangyu/component/service/" />
-
-	<target name="compile" >
-		<property name="source.remindservice.absolute.dir" value="${basedir}${source-path-of-service}" />
+	<target name="-compile" >
+		<echo>source path dir = ${source.path.dir}</echo>
+		<property name="source.absolute.dir" value="${basedir}/${source.path.dir}" />
+		<echo>source absolute dir = ${basedir}${source.path.dir}</echo>
+		<path id="project.custom.library">
+			<fileset file="${source.library.path}/*.jar" />
+		</path>
 		<path id="project.javac.classpath">
 			<path refid="project.all.jars.path" />
 			<path refid="tested.project.classpath" />
 			<path path="${java.compiler.classpath}" />
+			<path path="${project.custom.library}" />
 		</path>
+		<echo>${basedir}${source.library.path}</echo>
 		<echo>${java.compilerargs}</echo>
 		<javac encoding="${java.encoding}"
 			source="${java.source}" target="${java.target}"
@@ -26,7 +33,7 @@
 			verbose="false"
 			classpathref="project.javac.classpath"
 			fork="${need.javac.fork}">
-			<src path="${source.remindservice.absolute.dir}" />
+			<src path="${basedir}${source.path.dir}" />
 			<compilerarg line="${java.compilerargs}" />
 		</javac>
 		<!-- if the project is a library then we generate a jar file -->
@@ -45,7 +52,7 @@
 			</then>
 		</if>
 	</target>
-	<target name="startJar" depends="clean, -build-setup, setLibrary, compile" />
+	<target name="startJar" depends="clean, -build-setup, setLibrary, -code-gen, -compile" />
 
 	<target name="packageSrc">
 		<echo level="info">start packing source</echo>

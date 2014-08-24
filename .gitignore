@@ -5,6 +5,7 @@ build
 apk
 doc
 .idea
+jars
 
 script/backup_idea_config/*
 
